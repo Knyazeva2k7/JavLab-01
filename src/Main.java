@@ -1,38 +1,45 @@
+import java.util.Scanner;
 public class Main {
-    public static void main(String[] args){
-        System.out.println("1 zadanie" );
-        WholeNumber number = new WholeNumber();
 
-        System.out.println("1)" );
-        number.MinMax();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("2)" );
-        number.Summ();
+        System.out.print("Enter the command: ");
 
-        System.out.println("3)" );
-        number.LongInt();
+        String command = scanner.next();
 
-        System.out.println("4)" );
-        number.Division();
+        switch (command) {
+            case "fizzbuzz" -> FizzBuzz.fizzbuzz();
+            case "reverse" -> {
+                System.out.print("Enter a word: ");
+                String input = scanner.next();
+                String result = TextTasks.reverse(input);
+                System.out.println(result);
+            }
+            case "quadratic" -> {
+                System.out.println("Enter 3 real coefficients: ");
+                double a = scanner.nextDouble();
+                double b = scanner.nextDouble();
+                double c = scanner.nextDouble();
+                QuadraticEquation.quadratic(a, b, c);
+            }
 
-        System.out.println("5)" );
-        number.LongToInt();
+            case "series" -> SeriesCalculator.series();
 
-        System.out.println("6)" );
-        number.CharArithmetic();
+            case "palindrome" -> {
+                scanner.nextLine();
+                System.out.print("Enter palindrome: ");
+                String input = scanner.nextLine();
+                Palindromes.palindrome(input);
+            }
 
-        System.out.println("7)" );
-        int a = Integer.MAX_VALUE;
-        int b = 676767;
-        number.SumInt(a, b);
+            default -> System.out.print("fizzbuzz\n" +
+                    "reverse <string>\n" +
+                    "quadratic <a> <b> <c>\n" +
+                    "series\n" +
+                    "palindrome <string>");
+        }
+        scanner.close();
 
-        int c = 200;
-        int d = 357;
-        number.SumInt(c, d);
-
-        int e = Integer.MIN_VALUE;
-        int f = -9999;
-        number.SumInt(e, f);
     }
-    
 }
