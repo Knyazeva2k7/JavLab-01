@@ -16,6 +16,12 @@ public class Main {
             case 2-> {
                 new Arithmetic().run();
             }
+            case 3 -> {
+                new BitwiseOperations().run();
+            }
+            case 4 -> {
+                new WordProcessing().run();
+            }
             
             default -> {
                 System.out.println("Error");
