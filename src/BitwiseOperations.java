@@ -1,5 +1,5 @@
 public class BitwiseOperations {
-    public void run(){
+    public static void run(){
         Operators();
         Parity(11, 12);
         isPowerOfTwo(-1);
@@ -9,7 +9,7 @@ public class BitwiseOperations {
         exchange(5, 11);
     }
 
-    public void Operators(){
+    private static void Operators(){
         System.out.println("exercise 3.1---------------------");
         int a = 11;
         int c = -11;
@@ -31,7 +31,7 @@ public class BitwiseOperations {
         //  что >> добавляет биты слева в соответствии с изначальным знаком числа, а >>> всегда нули
     }
 
-    public void Parity(int a, int b){
+    private static void Parity(int a, int b){
         System.out.println("exercise 3.2---------------------");
 
         if ((a & 1) == 0 && (b & 1) == 0){
@@ -47,7 +47,7 @@ public class BitwiseOperations {
         }
     }
 
-    public boolean isPowerOfTwo(int a){
+    private static boolean isPowerOfTwo(int a){
         System.out.println("exercise 3.3---------------------");
 
         if (a <= 0){
@@ -64,7 +64,7 @@ public class BitwiseOperations {
         }
     }
 
-    public void unitCounter(int x){
+    private static void unitCounter(int x){
         System.out.println("exercise 3.4---------------------");
 
         int count = 0;
@@ -76,7 +76,7 @@ public class BitwiseOperations {
         System.out.println("Number of units: " + count);
     }
 
-    public void exchange(int a, int b){
+    private static void exchange(int a, int b){
         System.out.println("exercise 3.5---------------------");
 
         String binA = Integer.toBinaryString(a);//0101

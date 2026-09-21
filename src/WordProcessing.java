@@ -1,12 +1,13 @@
 public class WordProcessing {
-    public void run(){
+    public static void run(){
         Palindrome("Do geese see God?");
         Palindrome("I'm a palindrom");
         ReverseOfWords("cat eat mouse");
         Counter("What det3rm1nes th3 fate 0f humanity in th1s world?");
+        Ceasar("I love Java", 3);
         TheLongestWord("I completed the fourth assignment");
     }
-    public void Palindrome(String input){
+    private static void Palindrome(String input){
         System.out.println("exercise 4.1---------------------");
 
         int left = 0;
@@ -35,7 +36,7 @@ public class WordProcessing {
         }
         System.out.println(isPalindrome);
     }
-    public void ReverseOfWords(String input){
+    private static void ReverseOfWords(String input){
         System.out.println("exercise 4.2---------------------");
 
         System.out.println("Input: " + input);
@@ -53,7 +54,7 @@ public class WordProcessing {
         System.out.println(res);
     }
 
-    public void Counter(String input){
+    private static void Counter(String input){
         System.out.println("exercise 4.3---------------------");
 
         int vowelsCount = 0;// гласные
@@ -93,7 +94,7 @@ public class WordProcessing {
         "\nSpaces count: " + spacesCount);
     }
 
-    public void Ceasar(String input, int k){
+    private static void Ceasar(String input, int k){
         System.out.println("exercise 4.4---------------------");
 
         String res = "";
@@ -127,7 +128,7 @@ public class WordProcessing {
          System.out.println(res);
     }
 
-    public void TheLongestWord(String input){
+    private static void TheLongestWord(String input){
         System.out.println("exercise 4.5---------------------");
 
         String longestWord = "";

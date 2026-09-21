@@ -1,5 +1,5 @@
 public class WholeNumber{
-    public void run(){
+    public static void run(){
         MinMax();
         Summ();
         LongInt();
@@ -9,7 +9,7 @@ public class WholeNumber{
         SumInt(Integer.MAX_VALUE, 761);
         SumInt(5, 11110);
     }
-    public void MinMax(){
+    private static void MinMax(){
         System.out.println("exercise 1.1---------------------");
 
         System.out.println("Byte: " + Byte.MIN_VALUE + ", " + Byte.MAX_VALUE); //т.к. первый бит всегда 0, итого получается положительных чисел всего 2^7-1 
@@ -22,20 +22,20 @@ public class WholeNumber{
         // отсюда 2^63-1 положительны,2^63 отрицательных 
     }
 
-    public void Summ(){
+    private static void Summ(){
         System.out.println("exercise 1.2---------------------");
         int res = (int) 1 + Integer.MAX_VALUE;
         System.out.println(res);//число ушло в минус, так как произошло превышение максимального числа
     }
 
-    public void LongInt(){
+    private static void LongInt(){
         System.out.println("exercise 1.3---------------------");
         long resLong = (long) Integer.MAX_VALUE * 2;
         int resInt = Integer.MAX_VALUE * 2;
         System.out.println("Long: " + resLong + "\nInt: " + resInt);//тип инт не может физически сохранить в себе такое большое число
     }
 
-    public void Division(){
+    private static void Division(){
         System.out.println("exercise 1.4---------------------");
         double a = 5.0 / 2.0; //деление целочисленное
         double b = -5.0 / 2.0;
@@ -44,14 +44,14 @@ public class WholeNumber{
         System.out.println("/ "+ a + "\n-/ " + b + "\n% " + c + "\n-% " + d);
     }
 
-    public void LongToInt(){
+    private static void LongToInt(){
         System.out.println("exercise 1.5---------------------");
         long bigNum = (long) Integer.MAX_VALUE + 1000000;//правильное значение
         int a = (int) bigNum;//не поместился миллиончик сверху ушли в минус
         System.out.println("Long: " + bigNum + "\nRezult in int: " + a);
     }
 
-    public void CharArithmetic(){
+    private static void CharArithmetic(){
         System.out.println("exercise 1.6---------------------");
         char letter = 'A';
         char nextLetter = (char) (letter + 1);
@@ -68,7 +68,7 @@ public class WholeNumber{
         System.out.println("Char sum: " + summChar);
     }
 
-    public boolean SumInt(int a, int b){
+    private static boolean SumInt(int a, int b){
         System.out.println("exercise 1.7---------------------");
         int summ = a + b;
         if (a > 0 & b > 0 & summ < 0){

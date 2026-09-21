@@ -1,35 +1,55 @@
+import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int exerciseNumber;
+        do {
+            System.out.println("Enter number of exercise: ");
 
-        if (args.length == 0){
-            System.out.println("Error");
-            return;
-        }
+            if (!scanner.hasNextInt()){
+                System.out.println("Error. This is a letter");
+                scanner.next();
+                exerciseNumber = -1;
+                continue;
+            }
+            exerciseNumber = scanner.nextInt();
 
-        int exerciseNumber = Integer.parseInt(args[0]);
+            if (exerciseNumber < 0 || exerciseNumber > 7 || exerciseNumber == 6){
+                System.out.println("Error. Out of range");
+                continue;
+            }
 
-        switch (exerciseNumber) {
+            switch (exerciseNumber) {
+            case 0 -> {
+                System.out.println("Exit");
+            }
             case 1 -> {
-                new WholeNumber().run();
+                WholeNumber.run();
             }
             case 2-> {
-                new Arithmetic().run();
+                Arithmetic.run();
             }
             case 3 -> {
-                new BitwiseOperations().run();
+                BitwiseOperations.run();
             }
             case 4 -> {
-                new WordProcessing().run();
+                WordProcessing.run();
             }
             case 5 -> {
-                new ArraysTest().run();
+                ArraysTest.run();
+            }
+            case 7 -> {
+                Methods.run();
             }
             
             default -> {
                 System.out.println("Error");
             }
-        }
-    }
-}        
+        }    
+    } while (exerciseNumber != 0);
+    scanner.close();
+}  
+}
+
 

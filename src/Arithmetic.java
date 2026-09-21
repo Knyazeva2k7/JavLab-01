@@ -1,5 +1,5 @@
 public class Arithmetic{
-    public void run(){
+    public static void run(){
         Sum();
         Sum01();
         Comparison(0.1 + 0.2, 0.3, 0.00001);
@@ -7,7 +7,7 @@ public class Arithmetic{
         Comparison27();
         FloatVSDouble();
     }
-    public void Sum(){
+    private static void Sum(){
         System.out.println("exercise 2.1---------------------");
 
         double a = 0.1;
@@ -17,7 +17,7 @@ public class Arithmetic{
         // это типа как 1/3 = 0,(3)
     }
 
-    public void Sum01(){
+    private static void Sum01(){
         System.out.println("exercise 2.2---------------------");
 
         double rez = 0.0;
@@ -28,7 +28,7 @@ public class Arithmetic{
         System.out.println(rez == 1.0);//числа типа double невозможно точно представить в двоичном виде, 
         // поэтому при сложении эта погрешность остается и не равляется ровному числу
     }
-    public void Comparison (double a, double b, double epsilon){
+    private static void Comparison (double a, double b, double epsilon){
         System.out.println("exercise 2.3---------------------");
         
         if (Math.abs(a - b) < epsilon){
@@ -38,7 +38,7 @@ public class Arithmetic{
             System.out.println("the numbers are not equal");
     }
 
-    public void GetInfinity(){
+    private static void GetInfinity(){
         System.out.println("exercise 2.4---------------------");
 
         double a = 1.0;
@@ -50,7 +50,7 @@ public class Arithmetic{
         System.out.println("Non != Non: " + (c == Double.NaN));
     }
 
-    public void Comparison27(){
+    private static void Comparison27(){
         System.out.println("exercise 2.5---------------------");
 
         double a = 2.7;
@@ -69,7 +69,7 @@ public class Arithmetic{
         System.out.println("Math.ceil: " + Math.ceil(b));
     }
 
-    public void FloatVSDouble(){
+    private static void FloatVSDouble(){
         System.out.println("exercise 2.6---------------------");
 
         double res1 = 10.0 / 3.0;

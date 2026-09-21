@@ -1,13 +1,13 @@
 import java.util.Arrays;
 
 public class ArraysTest {
-    public void run(){
+    public static void run(){
         MkArray(7);
         MinMaxFind();
         Sort();
         Comparison();
     }
-    public void MkArray(int n){
+    private static void MkArray(int n){
         System.out.println("exercise 5.1---------------------");
 
         int[] arr = new int[n];
@@ -23,7 +23,7 @@ public class ArraysTest {
         }
         System.out.print("\n");
     }
-    public void MinMaxFind(){
+    private static void MinMaxFind(){
         System.out.println("exercise 5.2---------------------");
 
         int[] arr = {-1, 2, 3, 56, 67, 0};
@@ -39,7 +39,7 @@ public class ArraysTest {
         System.out.println("Max: " + max + "\nMin: " + min);
     }
 
-    public void Sort(){
+    private static void Sort(){
         System.out.println("exercise 5.3---------------------");
         //вставка
          int[] arr = {-1, 2, 3, 4, 67, 0};
@@ -60,7 +60,7 @@ public class ArraysTest {
         System.out.print("\n");
     }
 
-    public void Comparison(){
+    private static void Comparison(){
         System.out.println("exercise 5.3---------------------");
 
         int[] arr1 = {1, 2, 3, 4, 5, 6};
