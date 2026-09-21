@@ -22,6 +22,9 @@ public class Main {
             case 4 -> {
                 new WordProcessing().run();
             }
+            case 5 -> {
+                new ArraysTest().run();
+            }
             
             default -> {
                 System.out.println("Error");
