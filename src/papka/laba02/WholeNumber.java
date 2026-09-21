@@ -1,3 +1,4 @@
+package papka.laba02;
 public class WholeNumber{
     public static void run(){
         MinMax();

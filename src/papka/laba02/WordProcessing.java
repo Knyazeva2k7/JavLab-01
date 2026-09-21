@@ -1,3 +1,4 @@
+package papka.laba02;
 public class WordProcessing {
     public static void run(){
         Palindrome("Do geese see God?");

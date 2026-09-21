@@ -1,3 +1,4 @@
+package papka.laba02;
 public class Methods {
     public static void run(){
         print(3);

@@ -1,3 +1,4 @@
+package papka.laba02;
 import java.util.Arrays;
 
 public class ArraysTest {

@@ -1,3 +1,4 @@
+package papka.laba02;
 public class BitwiseOperations {
     public static void run(){
         Operators();
