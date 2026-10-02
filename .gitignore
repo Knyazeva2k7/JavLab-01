@@ -29,6 +29,5 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-*.iml
-/.idea/
-/app.jar
+/.idea
+/*.iml
