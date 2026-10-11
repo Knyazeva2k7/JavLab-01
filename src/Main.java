@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collection;
+
 
 public class Main{
     public static void main(String[] args){
@@ -64,6 +68,21 @@ public class Main{
                 TreeSet автоматически сортирует элементы. oн берет метод compareTo из Human. сначала он расставит всех по возрасту, а если возраст совпадет, он отсортирует их по фамилии.
                  HashSet ориентируется только на скорость. ему важен хеш-код, поэтому элементы распределяются по ячейкам памяти так, как удобно компьютеру.
                 */ 
+            }
+            case 4 -> {
+                WordFrequency.WordFreq("applE apple orAnge watermelon melon banana MONKEY monkey");
+            }
+            case 5 ->{
+                Map<Integer, String> map = new HashMap<>();
+                map.put(1, "one");
+                map.put(2, "two");
+                map.put(3, "three");
+                map.put(4, "two");
+                map.put(5, "one");
+                map.put(6, "two");
+                Map<String, Collection<Integer>> invertedMap = MapInverter.invert(map);
+                System.out.println(invertedMap);
+
             }
             
             default -> {
