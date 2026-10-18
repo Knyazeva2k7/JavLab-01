@@ -17,9 +17,13 @@ public class TextFigureStorage implements FigureStorage{
         List<Figure> figures = new ArrayList<>();
         try(BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)){
             String line;
+            int curLine = 0;
+
             while ((line = reader.readLine())!= null){
+                curLine++;
                 String[] parts = line.split(" ");
 
+               try{
                 if (parts[0].equals("Circle")){
                     double r = Double.parseDouble(parts[1]);
                     Circle cir = new Circle(r);
@@ -32,12 +36,19 @@ public class TextFigureStorage implements FigureStorage{
                     figures.add(rec);                    
                 }
                 else {
-                    throw new CustomFormatExceptions("Unknow figure type: " + line);
+                    throw new CustomFormatExceptions("Unknow figure type: " + parts[0]);
                 }
+            } catch (Exception e) {
+                CustomFormatExceptions exception = new CustomFormatExceptions("Error in line " + curLine + ": " + e.getMessage());
+                exception.initCause(e);
+
+                System.err.println(exception.getMessage());
+                System.err.println(" Cause: " + exception.getCause().getMessage());
             }
 
         }
         return figures;
+    }
     }
     
 
@@ -48,12 +59,14 @@ public class TextFigureStorage implements FigureStorage{
                 if (fig instanceof Circle) {
                     Circle c = (Circle) fig;
                     writer.write("Circle " + c.getR()); 
+                    writer.newLine();
                 } 
                 else if (fig instanceof Rectangle) {
-                Rectangle r = (Rectangle) fig;
-                writer.write("Rectangle " + r.getA() + " " + r.getB());
+                    Rectangle r = (Rectangle) fig;
+                    writer.write("Rectangle " + r.getA() + " " + r.getB());
+                    writer.newLine();
                 }
-                writer.newLine();
+                
             }
     }
 }
