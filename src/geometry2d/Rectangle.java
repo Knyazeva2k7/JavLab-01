@@ -1,5 +1,5 @@
 package geometry2d;
-import exceptions.Exceptions;
+import exceptions.InvalidParameterExceptions;
 
 public class Rectangle implements Figure{
     private final double a;
@@ -10,7 +10,7 @@ public class Rectangle implements Figure{
             this.a = a;
             this.b = b;
         }else{
-            throw new Exceptions ("The sides of the rectangle must be greater than 0");
+            throw new InvalidParameterExceptions ("The sides of the rectangle must be greater than 0");
         }
     }
     @Override 
@@ -20,6 +20,14 @@ public class Rectangle implements Figure{
     @Override 
     public double perimeter(){
         return (a + b) * 2;
+    }
+    
+    public double getA(){
+        return a;
+    }
+    
+    public double getB(){
+        return b;
     }
 
     @Override 

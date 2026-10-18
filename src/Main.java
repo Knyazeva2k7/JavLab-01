@@ -1,8 +1,13 @@
 import java.util.Scanner;
 import geometry2d.Circle;
+import geometry2d.Figure;
 import geometry2d.Rectangle;
 import geometry3d.Cylinder;
-import exceptions.Exceptions;
+import storage.TextFigureStorage;
+import exceptions.*;
+import java.util.List;
+import java.io.IOException;
+
 
 
 public class Main {
@@ -47,6 +52,46 @@ public class Main {
                 } catch (Exception e){
                     System.out.println("Exception: " + e.getMessage());
                 }
+            }
+            case 2 -> {
+                 System.out.println("exersize 4------------------");
+                 TextFigureStorage storage = new TextFigureStorage();
+                List<Figure> figures = List.of(new Circle(5.6), 
+                    new Rectangle(4.7, 7.0), 
+                    new Circle(2.0));
+
+            java.nio.file.Path filePath = java.nio.file.Paths.get("figures.txt");
+
+            try {
+
+                storage.write(filePath, figures);
+                System.out.println("The figures have been recorded");
+
+                java.nio.file.Files.write(
+                    filePath, 
+                    List.of("Circle gav", "Rectangle 2.0 3.0"), 
+                    java.nio.file.StandardOpenOption.APPEND
+                );
+
+                System.out.println("Reading file with defectes");
+                List<Figure> loadedFigures = storage.read(filePath);
+            
+                System.out.println("loaded figures in the list");
+                for (Figure f : loadedFigures) {
+                    System.out.println(f); 
+                }
+
+            } catch (IOException e) {
+                System.err.println("Error input-output: " + e.getMessage());
+            }
+            catch (CustomFormatExceptions e) {
+                System.err.println("Format error during reading: " + e.getMessage());
+            } catch (ClassNotFoundException e) {
+                System.err.println("Class not found error: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("Other error during reading: " + e.getMessage());
+            }
+
             }
 
             default -> {

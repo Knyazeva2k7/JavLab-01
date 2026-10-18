@@ -1,6 +1,7 @@
 package geometry3d;
 import geometry2d.Figure;
-import exceptions.Exceptions;
+
+import exceptions.InvalidParameterExceptions;
 
 public class Cylinder {
     private final double h;
@@ -8,11 +9,11 @@ public class Cylinder {
 
     public Cylinder(Figure base, double h){
         if (h <= 0){
-            throw new Exceptions("The height of the cylinder must be greater than 0");
+            throw new InvalidParameterExceptions("The height of the cylinder must be greater than 0");
         }
 
         if (base == null){
-            throw new Exceptions("Base is null");
+            throw new InvalidParameterExceptions("Base is null");
         } 
 
         this.base = base;

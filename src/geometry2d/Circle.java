@@ -1,6 +1,5 @@
 package geometry2d;
-
-import exceptions.Exceptions;
+import exceptions.InvalidParameterExceptions;
 
 public class Circle implements Figure{
     private final double r;
@@ -9,7 +8,7 @@ public class Circle implements Figure{
         if (r > 0){
             this.r = r;
         }else {
-            throw new Exceptions ("The radius of the circle must be greater than 0");
+            throw new InvalidParameterExceptions ("The radius of the circle must be greater than 0");
         }
     }
 
@@ -23,6 +22,10 @@ public class Circle implements Figure{
         return 2 * Math.PI * r;
     }
 
+    public double getR(){
+        return r;
+    }
+    
     @Override 
     public String toString(){
         return "Circle with radius " + r + 
