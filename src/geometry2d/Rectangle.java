@@ -1,7 +1,12 @@
 package geometry2d;
+import java.io.Serializable;
+import java.io.Serial;
 import exceptions.InvalidParameterExceptions;
 
-public class Rectangle implements Figure{
+public class Rectangle implements Figure, Serializable{
+    @Serial
+    private static final long serialVersionUID = 52;
+
     private final double a;
     private final double b;
 
@@ -36,5 +41,10 @@ public class Rectangle implements Figure{
          "\nArea: " + area() +
           "\nPerimeter: " + perimeter() + 
           "\n--------------\n";
+    }
+
+    @Override 
+    public String toStringNew(){
+        return "Rectangle " + a + " " + b;
     }
 }

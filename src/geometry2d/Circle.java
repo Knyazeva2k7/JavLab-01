@@ -1,7 +1,15 @@
 package geometry2d;
+import java.io.Serializable;
+import java.io.Serial;
+
 import exceptions.InvalidParameterExceptions;
 
-public class Circle implements Figure{
+public class Circle implements Figure, Serializable{
+
+    @Serial
+    private static final long serialVersionUID = 67;
+    
+
     private final double r;
 
     public Circle(double r){
@@ -32,6 +40,11 @@ public class Circle implements Figure{
         "\nArea: " + area() + 
         "\nPerimeter: " + perimeter() + 
         "\n--------------\n";
+    }
+
+    @Override 
+    public String toStringNew(){
+        return "Circle " + r;
     }
 
 }

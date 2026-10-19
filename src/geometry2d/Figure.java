@@ -4,5 +4,6 @@ package geometry2d;
         double area();
         double perimeter();
         String toString();
+        String toStringNew();
     }
 
