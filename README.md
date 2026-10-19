@@ -13,8 +13,10 @@
 Circle 5.0
 
 
-Rectangle 4.0 6.0
+Rectangle 4.8 3.0
 
 
-Circle 2.5
+Rectangle 3.9 7.0
 
+
+Circle 6.7
