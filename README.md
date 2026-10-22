@@ -26,6 +26,6 @@ CylinderTest. testCylinderGetters:42 expected: <Circle with radius 3.0
 
 
 
-![Отчет о прохождении тестов](laba04/test.png)
+![Отчет о прохождении тестов](laba04/tests.png)
 
 
