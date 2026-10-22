@@ -1,0 +1,10 @@
+storage\FigureStorage.class
+geometry2d\Rectangle.class
+geometry2d\Figure.class
+exceptions\CustomFormatExceptions.class
+exceptions\InvalidParameterExceptions.class
+app\Main.class
+geometry3d\Cylinder.class
+geometry2d\Circle.class
+storage\TextFigureStorage.class
+storage\Seriazable.class
