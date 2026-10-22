@@ -23,6 +23,9 @@ CircleTest. incorrectParametersOfCircle:37 Expected exceptions. InvalidParameter
 CylinderTest. testCylinderGetters:42 expected: <Circle with radius 3.0
 
 Эта ошибка произошла в процессе написания кода, когда я забыла прописать проверку ввода для бесконечности и NaN в конструкторе Rectangle. Исправила: 
+
+
+
 ![Отчет о прохождении тестов](JavLab-01/laba04/Снимок экрана 2026-10-22 215700.png)
 
 
