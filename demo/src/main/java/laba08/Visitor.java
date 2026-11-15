@@ -1,4 +1,4 @@
-package laba6;
+package laba08;
 
 import java.util.List;
 
