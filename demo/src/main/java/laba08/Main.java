@@ -18,94 +18,110 @@ import java.sql.Statement;
 import java.util.List;
 
 public class Main {
-    private static final String DB_URL = "jdbc:h2:mem:study_db;DB_CLOSE_DELAY=-1";
-    private static final String DB_USER = "sa";
-    private static final String DB_PASSWORD = "";
-
     public static void main(String[] args) {
+        String url = "jdbc:h2:mem:testdb";
+        String user = "sa";
+        String pass = "";
         String filePath = "book.json";
 
-        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+        try (Connection conn = DriverManager.getConnection(url, user, pass)) {
 
-            // ПОДГОТОВКА: Создание схемы study и выполнение скрипта music-create.sql
+            
             try (Statement stmt = conn.createStatement()) {
-                stmt.execute("CREATE SCHEMA IF NOT EXISTS study");
-                stmt.execute("SET SCHEMA study");
+                stmt.execute("CREATE SCHEMA IF NOT EXISTS study");//создание схемы
+                stmt.execute("SET SCHEMA study");//открытие(?) схемы
 
-                String sqlScript = Files.readString(Paths.get("music-create.sql"), StandardCharsets.UTF_8);
-                stmt.execute(sqlScript);
+                String initSql = Files.readString(Paths.get("music-create.sql"), StandardCharsets.UTF_8);
+                stmt.execute(initSql);
             }
 
-            // ЗАДАНИЕ № 1. Список музыкальных композиций
-            System.out.println("1. Список музыкальных композиций--------------");
-            try (Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery("SELECT id, name FROM study.music")) {
+            System.out.println(" 1. All music tracks-------------------");
+
+            String selectAllMusic = "SELECT id, name FROM study.music";
+
+            try (Statement stmt = conn.createStatement();//создание объекта-исполнителя (для статических запросов)
+                 ResultSet rs = stmt.executeQuery(selectAllMusic)) {//чтение 
                 while (rs.next()) {
                     System.out.println(rs.getInt("id") + ": " + rs.getString("name"));
                 }
             }
 
-            // ЗАДАНИЕ № 2. Фильтрация композиций (отсутствуют обе буквы m и t без учёта регистра)
-            System.out.println("2. Композиции без букв 'm' и 't'------------------");
-            String filterSql = "SELECT id, name FROM study.music " +
-                               "WHERE LOWER(name) NOT LIKE '%m%' AND LOWER(name) NOT LIKE '%t%'";
+            System.out.println("2. Tracks without 'm' and 't'----------------------");
+
+            String filterMusicSql = "SELECT id, name FROM study.music " +
+                                    "WHERE LOWER(name) NOT LIKE '%m%' AND LOWER(name) NOT LIKE '%t%'";
+
             try (Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery(filterSql)) {
+                 ResultSet rs = stmt.executeQuery(filterMusicSql)) {
                 while (rs.next()) {
                     System.out.println(rs.getInt("id") + ": " + rs.getString("name"));
                 }
             }
 
-            // ЗАДАНИЕ № 3. Добавление композиции
-            System.out.println("\n=== № 3. Добавление любимой композиции ===");
+
+            System.out.println("Task 3. Adding a new track----------------");
+            
             String insertMusicSql = "INSERT INTO study.music (id, name) VALUES (?, ?)";
-            try (PreparedStatement pstmt = conn.prepareStatement(insertMusicSql)) {
+
+            try (PreparedStatement pstmt = conn.prepareStatement(insertMusicSql)) {//позволяет втавлять в запрос переменные
                 pstmt.setInt(1, 999);
-                pstmt.setString(2, "Bohemian Rhapsody");
-                int rows = pstmt.executeUpdate();
-                System.out.println("Добавлено записей в music: " + rows);
+                pstmt.setString(2, "Verity");
+
+                int rows = pstmt.executeUpdate();//изменение 
+
+                System.out.println("Inserted rows into music: " + rows);
             }
 
-            // ЗАДАНИЕ № 4. Загрузка данных из JSON
-            System.out.println("\n=== № 4. Создание таблиц и загрузка уникальных данных из books.json ===");
+            System.out.println("4. Creating tables and loading data from book.json--------------");
+
+            String createVisitorsSql = "CREATE TABLE IF NOT EXISTS study.visitors (" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                    "name VARCHAR(100), " +
+                    "surname VARCHAR(100), " +
+                    "phone VARCHAR(50) UNIQUE, " + //ограничение уникальности,чтоб не повторялись
+                    "subscribed BOOLEAN" +
+                    ")";
+
+            String createBooksSql = "CREATE TABLE IF NOT EXISTS study.books (" +
+                    "id INT AUTO_INCREMENT PRIMARY KEY, " + //первичный ключ который генерируется бд
+                    "name VARCHAR(255), " +
+                    "author VARCHAR(255), " +
+                    "publishing_year INT, " +
+                    "isbn VARCHAR(50) UNIQUE, " +
+                    "publisher VARCHAR(255)" +
+                    ")";
+
+            String createLinksSql = "CREATE TABLE IF NOT EXISTS study.visitor_books (" +
+                    "visitor_id INT, " +
+                    "book_id INT, " +
+                    "PRIMARY KEY (visitor_id, book_id), " + //первичный ключ для двух строк, запрещающий создать одинаковые пары
+                    "FOREIGN KEY (visitor_id) REFERENCES study.visitors(id) ON DELETE CASCADE, " + //связывает айди с колонкой 
+                    "FOREIGN KEY (book_id) REFERENCES study.books(id) ON DELETE CASCADE" + 
+                    ")";
+
             try (Statement stmt = conn.createStatement()) {
-                String createVisitorsSql = "CREATE TABLE IF NOT EXISTS study.visitors (" +
-                        "id INT AUTO_INCREMENT PRIMARY KEY, " +
-                        "name VARCHAR(100), " +
-                        "surname VARCHAR(100), " +
-                        "phone VARCHAR(50) UNIQUE, " +
-                        "subscribed BOOLEAN)";
                 stmt.execute(createVisitorsSql);
-
-                String createBooksSql = "CREATE TABLE IF NOT EXISTS study.books (" +
-                        "id INT AUTO_INCREMENT PRIMARY KEY, " +
-                        "name VARCHAR(255), " +
-                        "author VARCHAR(255), " +
-                        "publishing_year INT, " +
-                        "isbn VARCHAR(50) UNIQUE, " +
-                        "publisher VARCHAR(255))";
                 stmt.execute(createBooksSql);
-
-                String createLinksSql = "CREATE TABLE IF NOT EXISTS study.visitor_books (" +
-                        "visitor_id INT, " +
-                        "book_id INT, " +
-                        "PRIMARY KEY (visitor_id, book_id), " +
-                        "FOREIGN KEY (visitor_id) REFERENCES study.visitors(id) ON DELETE CASCADE, " +
-                        "FOREIGN KEY (book_id) REFERENCES study.books(id) ON DELETE CASCADE)";
                 stmt.execute(createLinksSql);
             }
 
-            Gson gson = new Gson();
+            Gson gson = new Gson();//создание парсера
+
             Type visitorListType = new TypeToken<List<Visitor>>() {}.getType();
             List<Visitor> visitors;
+
             try (Reader reader = new FileReader(filePath, StandardCharsets.UTF_8)) {
                 visitors = gson.fromJson(reader, visitorListType);
             }
 
             String mergeVisitor = "MERGE INTO study.visitors (name, surname, phone, subscribed) KEY(phone) VALUES (?, ?, ?, ?)";
+
             String mergeBook = "MERGE INTO study.books (name, author, publishing_year, isbn, publisher) KEY(isbn) VALUES (?, ?, ?, ?, ?)";
+
             String selectVisitorId = "SELECT id FROM study.visitors WHERE phone = ?";
+
             String selectBookId = "SELECT id FROM study.books WHERE isbn = ?";
+
             String mergeLink = "MERGE INTO study.visitor_books (visitor_id, book_id) KEY(visitor_id, book_id) VALUES (?, ?)";
 
             for (Visitor v : visitors) {
@@ -117,7 +133,7 @@ public class Main {
                     psVis.executeUpdate();
                 }
 
-                int visitorId = getIdByKey(conn, selectVisitorId, v.phone());
+                int visitorId = getIdByKey(conn, selectVisitorId, v.phone());//получение сгенеренного айди посетителя по телефону
 
                 if (v.favoriteBooks() != null) {
                     for (Book b : v.favoriteBooks()) {
@@ -140,60 +156,62 @@ public class Main {
                     }
                 }
             }
-            System.out.println("Уникальные посетители и книги успешно загружены.");
+            System.out.println("Unique visitors and books have been successfully loaded");
 
-            // ЗАДАНИЕ № 5. Сортировка книг по году издания
-            System.out.println("\n=== № 5. Книги, отсортированные по году издания ===");
+
+            System.out.println("5. Books sorted by publishing year----------------");
+            
+            String sortBooksSql = "SELECT name, author, publishing_year FROM study.books ORDER BY publishing_year ASC";//с сортировкой по возрастанию
+
             try (Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery("SELECT name, author, publishing_year FROM study.books ORDER BY publishing_year ASC")) {
+                 ResultSet rs = stmt.executeQuery(sortBooksSql)) {
                 while (rs.next()) {
-                    System.out.printf("%d — %s (%s)%n",
+                    System.out.printf("%d - %s (%s)%n",
                             rs.getInt("publishing_year"),
                             rs.getString("name"),
                             rs.getString("author"));
                 }
             }
 
-            // ЗАДАНИЕ № 6. Книги до 2000 года
-            System.out.println("\n=== № 6. Книги, изданные до 2000 года ===");
+
+            System.out.println("6. Books published before 2000-----------------------");
+            
+            String oldBooksSql = "SELECT name, author, publishing_year FROM study.books WHERE publishing_year < 2000";
+            
             try (Statement stmt = conn.createStatement();
-                 ResultSet rs = stmt.executeQuery("SELECT name, author, publishing_year FROM study.books WHERE publishing_year < 2000")) {
+                 ResultSet rs = stmt.executeQuery(oldBooksSql)) {
                 while (rs.next()) {
-                    System.out.printf("%d — %s (%s)%n",
+                    System.out.printf("%d - %s (%s)%n",
                             rs.getInt("publishing_year"),
                             rs.getString("name"),
                             rs.getString("author"));
                 }
             }
 
-            // ЗАДАНИЕ № 7. Добавление информации о себе и своих любимых книг
-            System.out.println("\n=== № 7. Добавление себя и своих любимых книг ===");
 
+            System.out.println("7. Adding personal info and favorite books--------------");
             Book myBook1 = new Book(
-                "Мастер и Маргарита",
-                "Михаил Булгаков",
-                1967,
-                "978-5-17-118366-0",
-                "АСТ"
+                    "The Master and Margarita",
+                    "Mikhail Bulgakov",
+                    1967,
+                    "978-5-17-118366-0",
+                    "AST"
             );
-
             Book myBook2 = new Book(
                     "1984",
-                    "Джордж Оруэлл",
+                    "George Orwell",
                     1949,
                     "978-5-17-080115-2",
-                    "АСТ"
+                    "AST"
             );
-
             Visitor me = new Visitor(
-                    "Имя",
-                    "Фамилия",
-                    "+7-999-000-11-22",
+                    "Diana",
+                    "Knyazeva",
+                    "+7-800-555-35-55",
                     List.of(myBook1, myBook2),
                     true
             );
 
-            // 1. Добавляем себя в таблицу посетителей
             try (PreparedStatement psVis = conn.prepareStatement(mergeVisitor)) {
                 psVis.setString(1, me.name());
                 psVis.setString(2, me.surname());
@@ -204,7 +222,6 @@ public class Main {
 
             int myVisId = getIdByKey(conn, selectVisitorId, me.phone());
 
-            // 2. Добавляем свои любимые книги и связываем их со своим ID
             for (Book b : me.favoriteBooks()) {
                 try (PreparedStatement psBook = conn.prepareStatement(mergeBook)) {
                     psBook.setString(1, b.name());
@@ -224,7 +241,7 @@ public class Main {
                 }
             }
 
-            // 3. Читаем добавленные данные из базы и выводим на экран
+            // Read and print added personal info and favorite books
             String selectMyInfo = "SELECT v.name AS v_name, v.surname, v.phone, b.name AS b_name, b.author, b.publishing_year " +
                     "FROM study.visitors v " +
                     "JOIN study.visitor_books vb ON v.id = vb.visitor_id " +
@@ -235,7 +252,7 @@ public class Main {
                 ps.setString(1, me.phone());
                 try (ResultSet rs = ps.executeQuery()) {
                     while (rs.next()) {
-                        System.out.printf("Посетитель: %s %s (%s) -> Любимая книга: %s (%s, %d)%n",
+                        System.out.printf("Visitor: %s %s (%s) -> Favorite book: %s (%s, %d)%n",
                                 rs.getString("v_name"),
                                 rs.getString("surname"),
                                 rs.getString("phone"),
@@ -245,15 +262,14 @@ public class Main {
                     }
                 }
             }
-            
-            // ЗАДАНИЕ № 8. Удаление таблиц посетителей и книг
-                       // ЗАДАНИЕ № 8. Удаление таблиц
-            System.out.println("\n=== № 8. Удаление таблиц посетителей и книг ===");
+
+
+            System.out.println("8. Dropping visitors and books tables------------------");
             try (Statement stmt = conn.createStatement()) {
                 stmt.execute("DROP TABLE IF EXISTS study.visitor_books");
                 stmt.execute("DROP TABLE IF EXISTS study.books");
                 stmt.execute("DROP TABLE IF EXISTS study.visitors");
-                System.out.println("Таблицы visitor_books, books и visitors успешно удалены.");
+                System.out.println("Tables visitor_books, books, and visitors have been dropped.");
             }
 
         } catch (Exception e) {
@@ -261,6 +277,7 @@ public class Main {
         }
     }
 
+    // Helper method to get record ID by unique key (phone or ISBN)
     private static int getIdByKey(Connection conn, String query, String key) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setString(1, key);
@@ -270,10 +287,6 @@ public class Main {
                 }
             }
         }
-        throw new SQLException("Не удалось найти ID для ключа: " + key);
+        throw new SQLException("ID not found for key: " + key);
     }
 }
-
-
-
-
